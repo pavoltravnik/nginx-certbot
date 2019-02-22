@@ -1,5 +1,14 @@
 # Boilerplate for nginx with Let’s Encrypt on docker-compose
 
+```
+npm install --prefix node
+chmod +x ./init-letsencrypt.sh
+./init-letsencrypt.sh
+docker-compose up -d
+
+docker-compose logs -f -t
+```
+
 > This repository is accompanied by a [step-by-step guide on how to
 set up nginx and Let’s Encrypt with Docker](https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71).
 
