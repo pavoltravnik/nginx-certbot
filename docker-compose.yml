@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  node:
+    image: "node:8-stretch-slim"
+    container_name: "node"
+    user: "node"
+    working_dir: /home/node/app
+    volumes:
+      - ./node:/home/node/app
+    command: "npm start"
+    ports:
+      - "3000:3000"
   nginx:
     image: nginx:1.15-alpine
     restart: unless-stopped
