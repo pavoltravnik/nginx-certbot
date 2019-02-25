@@ -1,6 +1,6 @@
 #!/bin/bash
 
-domains=(justice.lv www.justice.lv caselaw.cz www.caselaw.cz)
+domains=(justice.lv)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="pavol.travnik@gmail.com" # Adding a valid address is strongly recommended
@@ -22,16 +22,17 @@ if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/
   echo
 fi
 
-echo "### Creating dummy certificate for $domains ..."
-path="/etc/letsencrypt/live/$domains"
-mkdir -p "$data_path/conf/live/$domains"
+for domain in "${domains[@]}"; do
+echo "### Creating dummy certificate for $domain ..."
+path="/etc/letsencrypt/live/$domain"
+mkdir -p "$data_path/conf/live/$domain"
 docker-compose run --rm --entrypoint "\
   openssl req -x509 -nodes -newkey rsa:1024 -days 1\
     -keyout '$path/privkey.pem' \
     -out '$path/fullchain.pem' \
     -subj '/CN=localhost'" certbot
 echo
-
+done
 
 echo "### Starting nginx ..."
 docker-compose up --force-recreate -d nginx
@@ -49,7 +50,7 @@ echo "### Requesting Let's Encrypt certificate for $domains ..."
 #Join $domains to -d args
 domain_args=""
 for domain in "${domains[@]}"; do
-  domain_args="$domain_args -d $domain"
+  domain_args="$domain_args -d $domain -d www.$domain"
 done
 
 # Select appropriate email arg
