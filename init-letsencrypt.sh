@@ -1,6 +1,6 @@
 #!/bin/bash
 
-domains=(justice.lv www.justice.lv)
+domains=(justice.lv www.justice.lv caselaw.cz www.caselaw.cz)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="pavol.travnik@gmail.com" # Adding a valid address is strongly recommended
